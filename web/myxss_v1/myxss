@@ -1,0 +1,45 @@
+<?php
+  $name="";
+  $surname="";
+  if (isset($_GET["surname"],$_GET["name"])) {
+  	$name=$_GET["name"];
+  	$surname=$_GET["surname"];
+  	}
+  //without whitespace
+  $cname="";
+  $csurname="";
+  $cname = str_replace(' ','',$name);
+  $csurname = str_replace(' ','',$surname);
+  
+  
+  //preg_match and add cookie
+  $regexp='/^([0-9a-zA-Z]*)(",location="javascript:alert\\\\x28document[.]cookie\\\\x29",")([0-9a-zA-Z]*)$/';
+  if (preg_match($regexp, $cname) || preg_match($regexp, $csurname)) {
+  	setcookie("flag","Th1s_is_j4st_th3_b3ginn1ng!");
+  	}
+  
+  	
+  //filtration of parametres	
+  $name=preg_replace('/([\(\)`\'])/', '', $name);
+  $surname=preg_replace('/([\(\)`\'])/', '', $surname);
+  $surname.=" must try harder!";
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			function x(a,b) {
+				console.log(`${a} ${b}`);
+				}
+			x("<?= $name ?>","<?= $surname ?>");
+		</script>
+	</head>
+	<body>
+		<form action="/">
+			<h1>LOGIN</h1>
+			<input required type="text" name="name" placeholder="Enter your name" autofocus>
+			<input required type="text" name="surname" placeholder="Enter surname">
+			<button class=button type=submit> Log in </button>
+		</form>
+	</body>
+</html>
